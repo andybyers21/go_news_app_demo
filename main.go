@@ -1,7 +1,9 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
+	// html/template generate HTML output that is safe against code injection
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -9,8 +11,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
+var tpl = template.Must(template.ParseFiles("index.html"))
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>Testing</h1>"))
+	tpl.Execute(w, nil)
 }
 
 func main() {
@@ -25,9 +29,15 @@ func main() {
 	//		port = "1313"
 	//	}
 
+	// instantiate static fike server
+	fs := http.FileServer(http.Dir("assets"))
+
 	mux := http.NewServeMux()
 
-	fmt.Println("runnung on port :1313")
+	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
+
+	// no longer required as running fresh to auto build the server.
+	// fmt.Println("runnung on port :1313")
 
 	mux.HandleFunc("/", indexHandler)
 	http.ListenAndServe(":"+port, mux)
