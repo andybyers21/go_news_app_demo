@@ -16,3 +16,6 @@
 
 # Tmp files for fresh
 /tmp
+
+#API keys
+.env
