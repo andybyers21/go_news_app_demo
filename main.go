@@ -2,22 +2,38 @@ package main
 
 import (
 	// html/template generate HTML output that is safe against code injection
+	"bytes"
 	"fmt"
 	"github.com/joho/godotenv"
+	"go_news_app_demo/news"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"time"
-
-	"go_news_app_demo/news"
 )
 
 var tpl = template.Must(template.ParseFiles("index.html"))
 
+type Search struct {
+	Query      string
+	NextPage   int
+	TotalPages int
+	Results    *news.Results
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	tpl.Execute(w, nil)
+	buf := &bytes.Buffer{}
+	err := tpl.Execute(buf, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	buf.WriteTo(w)
 }
 
 // This route expects two query parameters: q represents the user’s query, and
@@ -47,6 +63,31 @@ func searchHandler(newsapi *news.Client) http.HandlerFunc {
 
 		fmt.Println("**** Search Query is: ", searchQuery, "Page is: ", page, "****")
 		fmt.Printf("%+v", results)
+
+		nextPage, err := strconv.Atoi(page)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Convert page variable to an integer and assign to nextPage.
+		// TotalPages is computed by dividing the number of results by the page
+		// size, and rounding the result up to the nearest integer.
+		search := &Search{
+			Query:      searchQuery,
+			NextPage:   nextPage,
+			TotalPages: int(math.Ceil(float64(results.TotalResults) / float64(newsapi.PageSize))),
+			Results:    results,
+		}
+
+		buf := &bytes.Buffer{}
+		err = tpl.Execute(buf, search)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		buf.WriteTo(w)
 	}
 }
 
