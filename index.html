@@ -36,11 +36,15 @@
             <section class="container">
                 <div class="result-count">
                     {{ if .Results }}
-                        {{ if (gt .Results.TotalResults 0)}}
-                        <p>About <strong>{{ .Results.TotalResults }}</strong> results were found.</p>
-                        {{ else if and (ne .Query "") (eq .Results.TotalResults 0) }}
-                        <p>No results found for your query: <strong>{{ .Query }}</strong>.</p>
-                        {{ end }}
+                    {{ if (gt .Results.TotalResults 0)}}
+                    <p>
+                        About <strong>{{ .Results.TotalResults }}</strong> results were found.
+                    </p>
+                    {{ else if and (ne .Query "") (eq .Results.TotalResults 0) }}
+                    <p>
+                        No results found for your query: <strong>{{ .Query }}</strong>.
+                    </p>
+                    {{ end }}
                     {{ end }}
                 </div>
 
@@ -71,13 +75,24 @@
 
                 <div class="pagination">
                     {{ if . }}
-                        {{ if (ne .IsLastPage true) }}
-                        <a href="/search?q={{ .Query }}&page={{ .NextPage }}" class="button next-page">Next</a>
-                        {{ end }}
+                    {{ if (gt .NextPage 2) }}
+                    <a
+                        href="/search?q={{ .Query }}&page={{ .PreviousPage }}"
+                        class="button previous-page"
+                        >Previous</a
+                    >
+                    {{ end }}
+                    {{ if (ne .IsLastPage true) }}
+                    <a
+                        href="/search?q={{ .Query }}&page={{ .NextPage }}"
+                        class="button next-page"
+                        >Next</a
+                    >
+                    {{ end }}
                     {{ end }}
                 </div>
-
             </section>
         </main>
     </body>
 </html>
+

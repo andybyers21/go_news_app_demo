@@ -30,6 +30,20 @@ func (s *Search) IsLastPage() bool {
 	return s.NextPage >= s.TotalPages
 }
 
+// Display Previous button if the current page is greater than 1
+func (s *Search) CurrentPage() int {
+	if s.NextPage == 1 {
+		return s.NextPage
+	}
+
+	return s.NextPage - 1
+}
+
+// NextPage - 1 except if NextPage is 1
+func (s *Search) PreviousPage() int {
+	return s.CurrentPage() - 1
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	buf := &bytes.Buffer{}
 	err := tpl.Execute(buf, nil)
