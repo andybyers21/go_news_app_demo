@@ -25,6 +25,11 @@ type Search struct {
 	Results    *news.Results
 }
 
+// Check if the NextPage field is greater than the TotalPages field on a Search instance.
+func (s *Search) IsLastPage() bool {
+	return s.NextPage >= s.TotalPages
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	buf := &bytes.Buffer{}
 	err := tpl.Execute(buf, nil)
@@ -78,6 +83,11 @@ func searchHandler(newsapi *news.Client) http.HandlerFunc {
 			NextPage:   nextPage,
 			TotalPages: int(math.Ceil(float64(results.TotalResults) / float64(newsapi.PageSize))),
 			Results:    results,
+		}
+
+		// increment NextPage every time a new page of results is received
+		if ok := !search.IsLastPage(); ok {
+			search.NextPage++
 		}
 
 		buf := &bytes.Buffer{}
