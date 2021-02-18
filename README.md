@@ -2,6 +2,8 @@
 
 Using [NewsAPI.org](https://newsapi.org/) JSON API.
 
+Build and deploy a complete web service using Go"s standard library.
+
 Create a `.env` file with the following,
 
 ```txt
