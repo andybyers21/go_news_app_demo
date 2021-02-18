@@ -1,10 +1,15 @@
 # News App made with Go
 
-Using [NewsAPI.org](https://newsapi.org/) JSON API.
+Build and deploy a complete web service in Go's standard library. 
 
-Build and deploy a complete web service using Go"s standard library.
+Using [NewsAPI.org](https://newsapi.org/)'s JSON API integration to colect data,
+fetch news articles matching a user search query
+and present the results on the page. News API is a simple HTTP REST
+API for searching and retrieving live articles from all over the web
 
-Create a `.env` file with the following,
+---
+
+The app requires a `.env` file to be created in the root with the following:
 
 ```txt
 PORT=
@@ -13,14 +18,9 @@ NEWS_API_KEY=
 
 ```
 
-Complete this.
+Technology Stack:
+- HTML 
+- CSS
+- Javascript
+- Golang
 
-API Integration and Workflow Automation The products functionality is to
-collect data from the Non-Standard API’s, compute the data, and integrate with
-traffic steer database. The predicting output will be automated solution.
-" Technology Stack - PHP, MySQL, HTML, CSS, Javascript
-
-fetches news articles matching a particular search query through the News API,
-and presents the results on the page.
-
-deploy it to a production server at the end of the tutorial.
