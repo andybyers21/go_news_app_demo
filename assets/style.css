@@ -98,6 +98,22 @@ form {
   padding-left: 5px;
 }
 
+.search-button {
+  height: 100%;
+  border: 2px solid #004400;
+  color: var(--dark-green);
+  border-radius: 4px;
+  padding: 6px 24px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.search-button:hover {
+  text-decoration: none;
+  background-color: var(--dark-green);
+  color: var(--light-green);
+}
+
 .container {
   width: 100%;
   max-width: 720px;
@@ -190,6 +206,10 @@ form {
   }
 
   .article-image {
+    display: none;
+  }
+
+  .search-button {
     display: none;
   }
 }
