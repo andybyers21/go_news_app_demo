@@ -1,6 +1,15 @@
-# News App made with Go
+# Go_News_App
+
+## A News Aggregator made with Go
 
 Build and deploy a complete web service in Go's standard library.
+
+- Crwate a basic web server
+- Use Go tamplating
+- Create search routing
+- Create and make requests to the News API server
+- Render and format the results
+- Deploy to the web (using Heroku)
 
 Using [NewsAPI.org](https://newsapi.org/)'s JSON API integration to colect data,
 fetch news articles matching a user search query
